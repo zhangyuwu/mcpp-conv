@@ -449,7 +449,7 @@ def conv(src_dir, dest_dir, managed_types_file)
     
     # scan managed types first
     files.each { |src, dest|
-        content = File.read_all_in_utf8(src)
+        content = File.read(src).to_utf8
         conv.scan(content)
     }
     
@@ -461,7 +461,7 @@ def conv(src_dir, dest_dir, managed_types_file)
     # do conversion
     files.each { |src, dest|
         puts "Convert #{src}..."
-        content = File.read_all_in_utf8(src)
+        content = File.read(src).to_utf8
         content = conv.convert(content)
         FileUtils.move(src, src + '.bak') if File.absolute_path(src) == File.absolute_path(dest)
         File.write(dest, content)
